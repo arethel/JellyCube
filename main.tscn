@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://player.gd" type="Script" id=1]
 [ext_resource path="res://platform2.gd" type="Script" id=2]
@@ -10,6 +10,17 @@ extents = Vector2( 20, 20 )
 
 [sub_resource type="QuadMesh" id=4]
 size = Vector2( 40, 40 )
+
+[sub_resource type="QuadMesh" id=11]
+size = Vector2( 20, 1 )
+center_offset = Vector3( 10, 0, 0 )
+
+[sub_resource type="QuadMesh" id=12]
+size = Vector2( 20, 3 )
+center_offset = Vector3( 10, 0, 0 )
+
+[sub_resource type="RectangleShape2D" id=10]
+extents = Vector2( 30, 30 )
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 80, 10 )
@@ -47,6 +58,19 @@ shape = SubResource( 3 )
 [node name="MeshInstance2D" type="MeshInstance2D" parent="center/player"]
 modulate = Color( 0.34902, 0.635294, 0.890196, 1 )
 mesh = SubResource( 4 )
+
+[node name="MeshInstance2D2" type="MeshInstance2D" parent="center/player"]
+mesh = SubResource( 11 )
+
+[node name="velocity" type="MeshInstance2D" parent="center/player"]
+modulate = Color( 0.639216, 0.101961, 0.345098, 1 )
+mesh = SubResource( 12 )
+
+[node name="Area2D" type="Area2D" parent="center/player"]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="center/player/Area2D"]
+shape = SubResource( 10 )
 
 [node name="platform" type="RigidBody2D" parent="center"]
 position = Vector2( 0, 264 )
@@ -114,3 +138,4 @@ shape = SubResource( 8 )
 mesh = SubResource( 9 )
 
 [connection signal="body_entered" from="center/player" to="center/player" method="_on_player_body_entered"]
+[connection signal="body_exited" from="center/player/Area2D" to="center/player" method="_on_Area2D_body_exited"]
