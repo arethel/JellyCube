@@ -1,7 +1,11 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://player.gd" type="Script" id=1]
 [ext_resource path="res://platform2.gd" type="Script" id=2]
+
+[sub_resource type="SphereMesh" id=13]
+radius = 10.0
+height = 20.0
 
 [sub_resource type="PhysicsMaterial" id=5]
 
@@ -45,8 +49,22 @@ size = Vector2( 1000, 20 )
 [node name="center" type="Node2D" parent="."]
 position = Vector2( 270, 480 )
 
+[node name="sticking_joint" type="DampedSpringJoint2D" parent="center"]
+position = Vector2( 10, 203 )
+disable_collision = false
+length = 23.0
+
+[node name="sticking_pos" type="Position2D" parent="center"]
+visible = false
+z_index = 1
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="center/sticking_pos"]
+modulate = Color( 0.92549, 0.231373, 0.231373, 1 )
+mesh = SubResource( 13 )
+
 [node name="player" type="RigidBody2D" parent="center"]
 position = Vector2( 5, 207 )
+mass = 0.5
 physics_material_override = SubResource( 5 )
 contacts_reported = 1
 contact_monitor = true
@@ -63,6 +81,7 @@ mesh = SubResource( 4 )
 mesh = SubResource( 11 )
 
 [node name="velocity" type="MeshInstance2D" parent="center/player"]
+visible = false
 modulate = Color( 0.639216, 0.101961, 0.345098, 1 )
 mesh = SubResource( 12 )
 
@@ -75,6 +94,7 @@ shape = SubResource( 10 )
 [node name="platform" type="RigidBody2D" parent="center"]
 position = Vector2( 0, 264 )
 rotation = -0.240372
+collision_mask = 0
 mode = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="center/platform"]
@@ -84,8 +104,9 @@ shape = SubResource( 1 )
 mesh = SubResource( 2 )
 
 [node name="platform2" type="RigidBody2D" parent="center"]
-position = Vector2( -118, 37 )
+position = Vector2( -137, 53 )
 rotation = -0.827678
+collision_mask = 0
 mass = 10.0
 script = ExtResource( 2 )
 
@@ -97,6 +118,7 @@ mesh = SubResource( 2 )
 
 [node name="platform3" type="RigidBody2D" parent="center"]
 position = Vector2( 0, 454 )
+collision_mask = 0
 mode = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="center/platform3"]
@@ -107,6 +129,7 @@ mesh = SubResource( 7 )
 
 [node name="platform4" type="RigidBody2D" parent="center"]
 position = Vector2( -4, -460 )
+collision_mask = 0
 mode = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="center/platform4"]
@@ -118,6 +141,7 @@ mesh = SubResource( 7 )
 [node name="platform5" type="RigidBody2D" parent="center"]
 position = Vector2( -253, -30 )
 rotation = 1.5708
+collision_mask = 0
 mode = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="center/platform5"]
@@ -129,6 +153,7 @@ mesh = SubResource( 9 )
 [node name="platform6" type="RigidBody2D" parent="center"]
 position = Vector2( 259, 10 )
 rotation = 1.5708
+collision_mask = 0
 mode = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="center/platform6"]
@@ -136,6 +161,32 @@ shape = SubResource( 8 )
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="center/platform6"]
 mesh = SubResource( 9 )
+
+[node name="platform7" type="RigidBody2D" parent="center"]
+position = Vector2( 154, 425 )
+rotation = -0.827678
+collision_mask = 0
+mass = 10.0
+script = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="center/platform7"]
+shape = SubResource( 1 )
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="center/platform7"]
+mesh = SubResource( 2 )
+
+[node name="platform8" type="RigidBody2D" parent="center"]
+position = Vector2( 89, -262 )
+rotation = -0.827678
+collision_mask = 0
+mass = 10.0
+script = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="center/platform8"]
+shape = SubResource( 1 )
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="center/platform8"]
+mesh = SubResource( 2 )
 
 [connection signal="body_entered" from="center/player" to="center/player" method="_on_player_body_entered"]
 [connection signal="body_exited" from="center/player/Area2D" to="center/player" method="_on_Area2D_body_exited"]
