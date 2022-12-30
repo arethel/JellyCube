@@ -1,11 +1,14 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://player.gd" type="Script" id=1]
-[ext_resource path="res://platform2.gd" type="Script" id=2]
+[ext_resource path="res://triagBlock.tscn" type="PackedScene" id=2]
+[ext_resource path="res://radial_gradient.png" type="Texture" id=3]
+[ext_resource path="res://rectBlock.tscn" type="PackedScene" id=5]
+[ext_resource path="res://grad3.png" type="Texture" id=6]
 
 [sub_resource type="SphereMesh" id=13]
-radius = 10.0
-height = 20.0
+radius = 5.0
+height = 10.0
 
 [sub_resource type="PhysicsMaterial" id=5]
 
@@ -23,11 +26,9 @@ center_offset = Vector3( 10, 0, 0 )
 size = Vector2( 20, 3 )
 center_offset = Vector3( 10, 0, 0 )
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 80, 10 )
-
-[sub_resource type="QuadMesh" id=2]
-size = Vector2( 160, 20 )
+[sub_resource type="OccluderPolygon2D" id=16]
+cull_mode = 2
+polygon = PoolVector2Array( 20, 20, -20, 20, -20, -20, 20, -20 )
 
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 300, 10 )
@@ -35,25 +36,37 @@ extents = Vector2( 300, 10 )
 [sub_resource type="QuadMesh" id=7]
 size = Vector2( 600, 20 )
 
+[sub_resource type="OccluderPolygon2D" id=17]
+cull_mode = 2
+polygon = PoolVector2Array( 300, 10, -300, 10, -300, -10, 300, -10 )
+
 [sub_resource type="RectangleShape2D" id=8]
 extents = Vector2( 500, 10 )
 
 [sub_resource type="QuadMesh" id=9]
 size = Vector2( 1000, 20 )
 
-[node name="main" type="CanvasLayer"]
+[sub_resource type="OccluderPolygon2D" id=18]
+cull_mode = 2
+polygon = PoolVector2Array( 500, 10, -500, 10, -500, -10, 500, -10 )
+
+[node name="main" type="Node2D"]
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color( 0.309804, 0.309804, 0.309804, 1 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_left = -394.0
+margin_top = -239.0
+margin_right = 906.0
+margin_bottom = 1182.0
+color = Color( 0.0901961, 0.0901961, 0.0901961, 1 )
 
 [node name="center" type="Node2D" parent="."]
 position = Vector2( 270, 480 )
 
-[node name="sticking_joint" type="DampedSpringJoint2D" parent="center"]
-position = Vector2( -56, -410 )
-rotation = 3.11367
-disable_collision = false
-length = 46.0
-rest_length = 1.0
-
 [node name="sticking_pos" type="Position2D" parent="center"]
+visible = false
 z_index = 1
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="center/sticking_pos"]
@@ -61,7 +74,7 @@ modulate = Color( 0.92549, 0.231373, 0.231373, 1 )
 mesh = SubResource( 13 )
 
 [node name="player" type="RigidBody2D" parent="center"]
-position = Vector2( -7, -80 )
+position = Vector2( 17, 200 )
 mass = 0.5
 physics_material_override = SubResource( 5 )
 contacts_reported = 1
@@ -73,40 +86,50 @@ script = ExtResource( 1 )
 shape = SubResource( 3 )
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="center/player"]
-modulate = Color( 0.34902, 0.635294, 0.890196, 1 )
+modulate = Color( 0.164706, 0.803922, 0.835294, 1 )
 mesh = SubResource( 4 )
 
 [node name="MeshInstance2D2" type="MeshInstance2D" parent="center/player"]
+visible = false
 mesh = SubResource( 11 )
 
 [node name="velocity" type="MeshInstance2D" parent="center/player"]
+visible = false
 modulate = Color( 0.639216, 0.101961, 0.345098, 1 )
 mesh = SubResource( 12 )
 
-[node name="platform" type="RigidBody2D" parent="center"]
-position = Vector2( 0, 264 )
-rotation = -0.240372
-collision_mask = 0
-mode = 1
+[node name="LightOccluder2D" type="LightOccluder2D" parent="center/player"]
+occluder = SubResource( 16 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="center/platform"]
-shape = SubResource( 1 )
+[node name="Light2D" type="Light2D" parent="center/player"]
+texture = ExtResource( 3 )
+texture_scale = 0.1
+color = Color( 0.352941, 0.847059, 1, 1 )
+energy = 1.71
+shadow_enabled = true
 
-[node name="MeshInstance2D" type="MeshInstance2D" parent="center/platform"]
-mesh = SubResource( 2 )
+[node name="RayCast2D" type="RayCast2D" parent="center/player"]
+enabled = true
+cast_to = Vector2( 1, 55 )
 
-[node name="platform2" type="RigidBody2D" parent="center"]
-position = Vector2( -137, 53 )
-rotation = -0.827678
-collision_mask = 0
-mass = 10.0
-script = ExtResource( 2 )
+[node name="Light2D2" type="Light2D" parent="center/player"]
+texture = ExtResource( 6 )
+texture_scale = 0.15
+color = Color( 0, 0.811765, 1, 1 )
+energy = 1.14
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="center/platform2"]
-shape = SubResource( 1 )
+[node name="rectBlock" parent="center" instance=ExtResource( 5 )]
+position = Vector2( -135, 34 )
+rotation = -0.460767
+ang_vel = 1.0
+color = Color( 0.160784, 0.521569, 0.631373, 1 )
 
-[node name="MeshInstance2D" type="MeshInstance2D" parent="center/platform2"]
-mesh = SubResource( 2 )
+[node name="rectBlock2" parent="center" instance=ExtResource( 5 )]
+position = Vector2( 17, 305 )
+rotation = -0.38772
+mass = 20.0
+gravity_scale = 0.0
+color = Color( 0.494118, 0.0901961, 0.54902, 1 )
 
 [node name="platform3" type="RigidBody2D" parent="center"]
 position = Vector2( 0, 454 )
@@ -119,6 +142,9 @@ shape = SubResource( 6 )
 [node name="MeshInstance2D" type="MeshInstance2D" parent="center/platform3"]
 mesh = SubResource( 7 )
 
+[node name="LightOccluder2D" type="LightOccluder2D" parent="center/platform3"]
+occluder = SubResource( 17 )
+
 [node name="platform4" type="RigidBody2D" parent="center"]
 position = Vector2( -1, -461 )
 collision_mask = 0
@@ -129,6 +155,9 @@ shape = SubResource( 6 )
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="center/platform4"]
 mesh = SubResource( 7 )
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="center/platform4"]
+occluder = SubResource( 17 )
 
 [node name="platform5" type="RigidBody2D" parent="center"]
 position = Vector2( -253, -30 )
@@ -142,6 +171,9 @@ shape = SubResource( 8 )
 [node name="MeshInstance2D" type="MeshInstance2D" parent="center/platform5"]
 mesh = SubResource( 9 )
 
+[node name="LightOccluder2D" type="LightOccluder2D" parent="center/platform5"]
+occluder = SubResource( 18 )
+
 [node name="platform6" type="RigidBody2D" parent="center"]
 position = Vector2( 259, 10 )
 rotation = 1.5708
@@ -154,30 +186,13 @@ shape = SubResource( 8 )
 [node name="MeshInstance2D" type="MeshInstance2D" parent="center/platform6"]
 mesh = SubResource( 9 )
 
-[node name="platform7" type="RigidBody2D" parent="center"]
-position = Vector2( 154, 425 )
-rotation = -0.827678
-collision_mask = 0
-mass = 10.0
-script = ExtResource( 2 )
+[node name="LightOccluder2D" type="LightOccluder2D" parent="center/platform6"]
+occluder = SubResource( 18 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="center/platform7"]
-shape = SubResource( 1 )
-
-[node name="MeshInstance2D" type="MeshInstance2D" parent="center/platform7"]
-mesh = SubResource( 2 )
-
-[node name="platform8" type="RigidBody2D" parent="center"]
-position = Vector2( 217, -218 )
-rotation = -0.827678
-collision_mask = 0
-mass = 10.0
-script = ExtResource( 2 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="center/platform8"]
-shape = SubResource( 1 )
-
-[node name="MeshInstance2D" type="MeshInstance2D" parent="center/platform8"]
-mesh = SubResource( 2 )
+[node name="triagBlock" parent="center" instance=ExtResource( 2 )]
+position = Vector2( 93, -273 )
+mass = 20.0
+ang_vel = 0.5
+color = Color( 1, 0.129412, 0.129412, 1 )
 
 [connection signal="body_entered" from="center/player" to="center/player" method="_on_player_body_entered"]

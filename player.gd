@@ -13,40 +13,69 @@ var jump = false
 
 var last_cont_norm = Vector2.ZERO
 
+var obj=null
+var rel_pos_obj=Vector2.ZERO
+var rel_rot_obj=0
+
 func _integrate_forces(state):
 	
-	if($"../sticking_joint".node_b!=""):
-		if(state.get_contact_count()>0&&state.get_contact_local_normal(0)!=Vector2.ZERO):
-			var cont_norm = state.get_contact_local_normal(0)
-			last_cont_norm=cont_norm
-			$velocity.global_position=global_position-cont_norm*20
-			$velocity.global_rotation=cont_norm.angle()+PI
-			$"../sticking_pos".global_position=global_position
+	if(state.get_contact_count()>0&&state.get_contact_local_normal(0)!=Vector2.ZERO):
+		last_cont_norm=state.get_contact_local_normal(0)
+		$"../sticking_pos".global_position=state.get_contact_local_position(0)
+	
+	get_pos_of_ray(-last_cont_norm*50)
+	
+	if($RayCast2D.enabled):
+			get_pos_of_ray(-last_cont_norm*50)
+			if object_ray:
+				applied_force=(object_ray.global_position+
+				relative_pos_ray.rotated(object_ray.global_rotation-relative_rot_ray)
+				-global_position).normalized()*sticking_force
+			else:
+				if state.get_contact_count()>0:
+					obj = state.get_contact_collider_object(0)
+					rel_pos_obj=state.get_contact_local_position(0)-obj.global_position
+					rel_rot_obj=obj.global_rotation
+				if(obj):
+					applied_force=(obj.global_position+
+					rel_pos_obj.rotated(obj.global_rotation-rel_rot_obj)
+					-global_position).normalized()*sticking_force
 			
-			$"../sticking_joint".global_position=global_position
-			$"../sticking_joint".global_rotation=cont_norm.angle()+PI/2
-			$"../sticking_joint".rest_length=1
-			$"../sticking_joint".length=26
-			$"../sticking_joint".node_a=self.get_path()
-			$"../sticking_joint".node_b=state.get_contact_collider_object(0).get_path()
-			
-		
-		
 	if jump:
 		jump = false
-		if $"../sticking_joint".node_b!="":
-			$"../sticking_joint".node_b=""
+		if $RayCast2D.enabled:
+			$RayCast2D.enabled=false
+			obj=null
 			applied_force=Vector2(0,gravity_force)
 			linear_velocity = last_cont_norm*jump_impulse
+			last_cont_norm = Vector2.ZERO
 
 
 
 func _on_player_body_entered(_body):
-	if $"../sticking_joint".node_b=="":
-		$"../sticking_joint".node_b=_body.get_path()
+	if !$RayCast2D.enabled:
+		$RayCast2D.enabled=true
 		applied_force = Vector2.ZERO
 		linear_velocity = Vector2.ZERO
 		
+
+
+var relative_pos_ray = Vector2.ZERO
+var relative_rot_ray = 0
+var object_ray = null
+
+func get_pos_of_ray(cast):
+	$RayCast2D.cast_to=cast
+	$RayCast2D.global_rotation=0
+	$RayCast2D.force_raycast_update()
+	object_ray=$RayCast2D.get_collider()
+	if($RayCast2D.get_collider()):
+		relative_pos_ray=$RayCast2D.get_collision_point()-$RayCast2D.get_collider().global_position
+		relative_rot_ray=$RayCast2D.get_collider().global_rotation
+	else:
+		relative_pos_ray = Vector2.ZERO
+		relative_rot_ray = 0
+
 
 var press = false
 func _input(event):

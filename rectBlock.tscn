@@ -1,0 +1,42 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://radial_gradient.png" type="Texture" id=1]
+[ext_resource path="res://block.png" type="Texture" id=2]
+[ext_resource path="res://rectBlock.gd" type="Script" id=3]
+[ext_resource path="res://grad3.png" type="Texture" id=4]
+
+[sub_resource type="QuadMesh" id=2]
+size = Vector2( 160, 20 )
+
+[sub_resource type="OccluderPolygon2D" id=15]
+cull_mode = 2
+polygon = PoolVector2Array( -74, 10, -79, 7, -80, 0, -79, -7, -74, -10, 74, -10, 79, -6.296, 80, 0, 79, 7, 74, 10 )
+
+[sub_resource type="RectangleShape2D" id=19]
+extents = Vector2( 80, 10 )
+
+[node name="rectBlock" type="RigidBody2D"]
+collision_mask = 0
+mass = 10.0
+script = ExtResource( 3 )
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+mesh = SubResource( 2 )
+texture = ExtResource( 2 )
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource( 15 )
+
+[node name="Light2D" type="Light2D" parent="."]
+scale = Vector2( 0.4, 0.1 )
+texture = ExtResource( 1 )
+energy = 1.71
+shadow_enabled = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 19 )
+
+[node name="Light2D2" type="Light2D" parent="."]
+scale = Vector2( 0.6, 0.1 )
+texture = ExtResource( 4 )
+energy = 1.01
