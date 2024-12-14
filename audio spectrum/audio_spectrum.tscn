@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://audio spectrum/audio_spectrum.gd" type="Script" id=1]
+
+[sub_resource type="Gradient" id=1]
+offsets = PoolRealArray( 0, 0.252874, 0.51341, 0.812261 )
+colors = PoolColorArray( 1, 0.867188, 0, 1, 0.6875, 0, 1, 1, 0.148438, 1, 0, 1, 0, 0.484375, 1, 1 )
+
+[node name="audio_spectrum_rect" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+grad = SubResource( 1 )
+
+[node name="stick_anim" type="Tween" parent="."]

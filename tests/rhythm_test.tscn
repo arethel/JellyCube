@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://map/sprites/list_of_blocks_glowing.png" type="Texture" id=1]
+[ext_resource path="res://tests/audio_test.gd" type="Script" id=2]
+[ext_resource path="res://tests/beat_test.gd" type="Script" id=3]
+[ext_resource path="res://tests/music/Limit 70.mp3" type="AudioStream" id=4]
+
+[node name="rhythm" type="Node2D"]
+position = Vector2( 262, 367 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_left = -176.0
+margin_top = -194.0
+margin_right = 224.0
+margin_bottom = 206.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+volume_db = -8.398
+autoplay = true
+script = ExtResource( 2 )
+bpm = 103
+measures = 2
+
+[node name="Sprite" type="Sprite" parent="."]
+modulate = Color( 2, 2, 2, 0.574542 )
+texture = ExtResource( 1 )
+hframes = 5
+script = ExtResource( 3 )
+
+[node name="anim_rhythm" type="Tween" parent="."]

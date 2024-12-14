@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://tests/DrawTest.gd" type="Script" id=1]
+[ext_resource path="res://tests/ViewportTest.gd" type="Script" id=2]
+[ext_resource path="res://tests/fps.tscn" type="PackedScene" id=3]
+
+[sub_resource type="SphereMesh" id=1]
+radius = 3.752
+height = 10.299
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="ViewportContainer" type="ViewportContainer" parent="."]
+margin_right = 484.0
+margin_bottom = 383.0
+
+[node name="Viewport" type="Viewport" parent="ViewportContainer"]
+size = Vector2( 200, 200 )
+handle_input_locally = false
+hdr = false
+disable_3d = true
+usage = 0
+render_target_v_flip = true
+render_target_update_mode = 3
+gui_disable_input = true
+
+[node name="Node2D" type="Node2D" parent="ViewportContainer/Viewport"]
+position = Vector2( 100, 100 )
+script = ExtResource( 1 )
+arr2 = PoolVector2Array( 46.7564, -22.2414, 47.848, -24.3451, 47.8482, -26.7151, 46.757, -28.819, 44.8196, -30.1841, -12.2724, -52.6238, -14.3431, -52.9645, -16.3712, -52.4254, -17.9995, -51.1016, -18.9411, -49.2261, -40.4862, 33.806, -40.6394, 35.3265, -40.3263, 36.8223, -39.5759, 38.1536, -38.4586, 39.1961, -22.3275, 50.1684, -20.6785, 50.897, -18.8783, 50.9934, -17.1609, 50.4451, -15.7496, 49.3234 )
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="ViewportContainer/Viewport/Node2D"]
+modulate = Color( 0.905882, 0.0980392, 0.0980392, 1 )
+mesh = SubResource( 1 )
+
+[node name="fps" parent="." instance=ExtResource( 3 )]
+margin_top = 328.0
+margin_bottom = 383.0

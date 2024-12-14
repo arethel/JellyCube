@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://fonts/Choplin-Medium.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://tests/fps.gd" type="Script" id=2]
+
+[sub_resource type="DynamicFont" id=23]
+size = 45
+font_data = ExtResource( 1 )
+
+[sub_resource type="Theme" id=24]
+default_font = SubResource( 23 )
+
+[node name="fps" type="Label"]
+margin_left = 257.0
+margin_top = 32.0
+margin_right = 297.0
+margin_bottom = 46.0
+theme = SubResource( 24 )
+text = "0"
+script = ExtResource( 2 )

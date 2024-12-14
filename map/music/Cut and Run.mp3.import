@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Cut and Run.mp3-f944b5620f58ad83b9f39c61985502ab.mp3str"
+
+[deps]
+
+source_file="res://map/music/Cut and Run.mp3"
+dest_files=[ "res://.import/Cut and Run.mp3-f944b5620f58ad83b9f39c61985502ab.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

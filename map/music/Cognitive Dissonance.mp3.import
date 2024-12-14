@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Cognitive Dissonance.mp3-9411b1ddf73f86796efb6d4de1f03aa9.mp3str"
+
+[deps]
+
+source_file="res://map/music/Cognitive Dissonance.mp3"
+dest_files=[ "res://.import/Cognitive Dissonance.mp3-9411b1ddf73f86796efb6d4de1f03aa9.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Going Home.mp3-f10b691b9cb83a2b0d4bc40d7015c497.mp3str"
+
+[deps]
+
+source_file="res://map/music/Going Home.mp3"
+dest_files=[ "res://.import/Going Home.mp3-f10b691b9cb83a2b0d4bc40d7015c497.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

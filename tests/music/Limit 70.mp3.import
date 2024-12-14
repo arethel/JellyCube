@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Limit 70.mp3-48903986b35bee021b70b525c8b69e77.mp3str"
+
+[deps]
+
+source_file="res://tests/music/Limit 70.mp3"
+dest_files=[ "res://.import/Limit 70.mp3-48903986b35bee021b70b525c8b69e77.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0
